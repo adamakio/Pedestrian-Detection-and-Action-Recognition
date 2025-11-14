@@ -6,3 +6,6 @@
 *.mov filter=lfs diff=lfs merge=lfs -text
 *.webm filter=lfs diff=lfs merge=lfs -text
 *.zip filter=lfs diff=lfs merge=lfs -text
+yolo11l.pt filter=lfs diff=lfs merge=lfs -text
+yolo11n.pt filter=lfs diff=lfs merge=lfs -text
+yolo11s.pt filter=lfs diff=lfs merge=lfs -text
