@@ -28,7 +28,12 @@ yolo/
 yolo_0.1/
 runs/predict/
 action_det/debug_viz
-
+action_det/eval
+runs/detect/titan_person_11n_0.1/weights/epoch*.pt
+runs/detect/titan_person_11n_0.1v2/weights/epoch*.pt
+runs/detect/titan_person_11n_0.1_merged/test_vis
 yolo11l.pt
 yolo11n.pt
 yolo11s.pt
+*.mp4
+tracks_mot16*
