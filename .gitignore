@@ -25,6 +25,7 @@ logs/
 dataset/
 debug/
 yolo/
+yolo_0.1/
 action_det/debug_viz
 
 yolo11l.pt
