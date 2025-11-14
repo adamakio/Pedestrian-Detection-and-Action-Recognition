@@ -37,3 +37,4 @@ yolo11n.pt
 yolo11s.pt
 *.mp4
 tracks_mot16*
+predictions.json
