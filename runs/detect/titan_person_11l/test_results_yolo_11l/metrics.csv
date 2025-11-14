@@ -1,0 +1,2 @@
+Class,Images,Instances,Box-P,Box-R,Box-F1,mAP50,mAP50-95
+person,1429,10416,1.0,0.94019,0.96917,0.97008,0.83838

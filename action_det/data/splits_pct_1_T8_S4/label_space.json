@@ -1,0 +1,36 @@
+{
+  "pct": 0.01,
+  "T": 8,
+  "stride": 4,
+  "label_space": {
+    "atomic": [
+      "none",
+      "walking",
+      "standing",
+      "sitting",
+      "bending",
+      "running"
+    ],
+    "simple-context": [
+      "none",
+      "walking on the road",
+      "biking",
+      "exiting a building",
+      "entering a building"
+    ],
+    "complex-context": [
+      "none",
+      "unloading"
+    ],
+    "communicative": [
+      "none",
+      "talking in group",
+      "talking on phone"
+    ],
+    "transportive": [
+      "none",
+      "pulling",
+      "pushing"
+    ]
+  }
+}

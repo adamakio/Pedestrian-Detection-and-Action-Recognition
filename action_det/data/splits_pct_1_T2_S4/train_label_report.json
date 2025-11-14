@@ -1,0 +1,30 @@
+{
+  "atomic": {
+    "walking": 802,
+    "standing": 74,
+    "sitting": 29,
+    "bending": 3,
+    "running": 12
+  },
+  "simple-context": {
+    "walking on the road": 303,
+    "none": 575,
+    "exiting a building": 3,
+    "biking": 32,
+    "entering a building": 7
+  },
+  "complex-context": {
+    "none": 915,
+    "unloading": 5
+  },
+  "communicative": {
+    "none": 896,
+    "talking in group": 3,
+    "talking on phone": 21
+  },
+  "transportive": {
+    "none": 799,
+    "pulling": 32,
+    "pushing": 89
+  }
+}

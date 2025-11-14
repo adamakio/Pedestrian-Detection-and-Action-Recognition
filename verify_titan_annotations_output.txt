@@ -1,0 +1,42 @@
+========== TITAN Annotation Verification ==========
+[INFO] ROOT directory:       /Users/ranyarhazi/Downloads/Zouhair/titan_data
+[INFO] DATASET directory:    /Users/ranyarhazi/Downloads/Zouhair/titan_data/dataset
+[INFO] IMAGES_ROOT:          /Users/ranyarhazi/Downloads/Zouhair/titan_data/dataset/images_anonymized
+[INFO] ANN_ROOT:             /Users/ranyarhazi/Downloads/Zouhair/titan_data/dataset/titan_0_4
+[INFO] OUT_ROOT:             /Users/ranyarhazi/Downloads/Zouhair/titan_data/debug
+===================================================
+[INFO] Loaded 400 clips from train_set.txt
+[INFO] First 5 clips: ['clip_306', 'clip_307', 'clip_308', 'clip_309', 'clip_31']
+[INFO] Using first train clip for verification: clip_306
+[INFO] Looking for annotation CSV at: /Users/ranyarhazi/Downloads/Zouhair/titan_data/dataset/titan_0_4/clip_306.csv
+[INFO] Loaded 1348 rows from clip_306.csv
+[INFO] Unique labels: ['vehicle_2_wheeled' 'person' 'vehicle_4_wheeled']
+[DEBUG] First 5 rows of raw annotations:
+    frames             label  obj_track_id        top        left     height      width attributes.Trunk Open attributes.Motion Status attributes.Doors Open attributes.Communicative attributes.Complex Contextual attributes.Atomic Actions                                  attributes.Simple Context attributes.Transporting attributes.Age
+000006.png vehicle_2_wheeled           0.0 833.784946 1739.849462 212.000000 108.000000                   NaN                   parked                   NaN                      NaN                           NaN                       NaN                                                        NaN                     NaN            NaN
+000006.png            person           1.0 771.910314 1220.982063  75.000000  30.000000                   NaN                      NaN                   NaN        none of the above             none of the above                   walking jaywalking (illegally crossing NOT at pedestrian crossing)       none of the above          adult
+000006.png vehicle_2_wheeled           2.0 801.784946  974.849462 113.132749  53.092924                   NaN                   parked                   NaN                      NaN                           NaN                       NaN                                                        NaN                     NaN            NaN
+000006.png vehicle_4_wheeled           3.0 709.682540 1322.619048 145.208171  98.380952                  open                  stopped                closed                      NaN                           NaN                       NaN                                                        NaN                     NaN            NaN
+000006.png            person           4.0 737.603774  889.226415 317.000000 118.000000                   NaN                      NaN                   NaN        none of the above             none of the above                   walking                         walking along the side of the road       none of the above          adult
+[INFO] Filtered to label == 'person': 649 rows
+[DEBUG] Bounding box stats for 'person':
+  top:    min=542.19007327,    max=801.682539683
+  left:   min=0.0,   max=1656.97687861
+  height: min=70.0, max=968.80992673
+  width:  min=23.0,  max=393.392632525
+[DEBUG] Sample 5 'person' rows:
+    frames  label  obj_track_id        top        left     height      width
+000006.png person           1.0 771.910314 1220.982063  75.000000  30.000000
+000006.png person           4.0 737.603774  889.226415 317.000000 118.000000
+000006.png person           5.0 772.884393 1275.976879  79.000000  30.000000
+000012.png person           1.0 770.910314 1211.982063  76.000000  33.000000
+000012.png person           4.0 738.603774  858.226415 328.233625 139.741065
+[INFO] Saving visualizations to: /Users/ranyarhazi/Downloads/Zouhair/titan_data/debug/verify_clip_306
+[INFO] Unique frames with persons in this clip: 179
+[INFO] First 10 such frames: ['000006.png', '000012.png', '000018.png', '000024.png', '000030.png', '000036.png', '000042.png', '000048.png', '000054.png', '000060.png']
+[DEBUG] Drew 3 boxes on 000006.png, saved -> /Users/ranyarhazi/Downloads/Zouhair/titan_data/debug/verify_clip_306/000006.png
+[DEBUG] Drew 3 boxes on 000012.png, saved -> /Users/ranyarhazi/Downloads/Zouhair/titan_data/debug/verify_clip_306/000012.png
+[DEBUG] Drew 3 boxes on 000018.png, saved -> /Users/ranyarhazi/Downloads/Zouhair/titan_data/debug/verify_clip_306/000018.png
+[INFO] Total frames rendered with person boxes: 20
+[INFO] Verification script complete.
+[INFO] Open the images in debug/ to visually confirm boxes align with pedestrians.

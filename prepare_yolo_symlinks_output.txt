@@ -1,0 +1,6 @@
+[INFO] train: found 40032 label files
+[INFO] train: created 40032 symlinks, 0 missing images
+[INFO] val: found 21064 label files
+[INFO] val: created 21064 symlinks, 0 missing images
+[INFO] test: found 12175 label files
+[INFO] test: created 12175 symlinks, 0 missing images

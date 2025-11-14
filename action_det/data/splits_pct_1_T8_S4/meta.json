@@ -1,0 +1,58 @@
+{
+  "pct": 0.01,
+  "T": 8,
+  "stride": 4,
+  "dataset_root": "/Users/ranyarhazi/Downloads/Zouhair/titan_data/dataset",
+  "img_root": "/Users/ranyarhazi/Downloads/Zouhair/titan_data/dataset/images_anonymized",
+  "csv_root": "/Users/ranyarhazi/Downloads/Zouhair/titan_data/dataset/titan_0_4",
+  "heads": {
+    "atomic": [
+      "none",
+      "standing",
+      "jumping",
+      "squatting",
+      "bending",
+      "running",
+      "walking",
+      "laying down",
+      "sitting",
+      "kneeling"
+    ],
+    "simple-context": [
+      "none",
+      "motorcycling",
+      "jaywalking",
+      "crossing legally",
+      "entering a building",
+      "waiting o cross",
+      "opening",
+      "walking on the side",
+      "cleaning",
+      "closing",
+      "exiting a building",
+      "walking on the road",
+      "biking"
+    ],
+    "complex-context": [
+      "none",
+      "getting-on 2wv",
+      "getting off 2wv",
+      "getting-out 4wv",
+      "getting in 4wv",
+      "loading",
+      "unloading"
+    ],
+    "communicative": [
+      "none",
+      "talking on phone",
+      "looking at phone",
+      "talking in group"
+    ],
+    "transportive": [
+      "none",
+      "pulling",
+      "carrying",
+      "pushing"
+    ]
+  }
+}

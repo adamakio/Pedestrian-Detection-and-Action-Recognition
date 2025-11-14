@@ -1,0 +1,17 @@
+[INFO] ===== Done train =====
+[INFO] Total 'person' rows:           221760
+[INFO] Total YOLO boxes written:      221760
+[INFO] Total images with boxes:       40032
+[INFO] val: loaded 200 clips from val_set.txt
+
+[INFO] ===== Done val =====
+[INFO] Total 'person' rows:           119395
+[INFO] Total YOLO boxes written:      119395
+[INFO] Total images with boxes:       21064
+[INFO] test: loaded 100 clips from test_set.txt
+
+[INFO] ===== Done test =====
+[INFO] Total 'person' rows:           58155
+[INFO] Total YOLO boxes written:      58155
+[INFO] Total images with boxes:       12175
+[INFO] Export complete.
