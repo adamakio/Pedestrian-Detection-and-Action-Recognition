@@ -26,6 +26,7 @@ dataset/
 debug/
 yolo/
 yolo_0.1/
+runs/predict/
 action_det/debug_viz
 
 yolo11l.pt
