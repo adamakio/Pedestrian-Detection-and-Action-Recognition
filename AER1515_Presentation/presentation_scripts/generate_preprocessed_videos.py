@@ -24,7 +24,7 @@ CLIP_PATH_TEMPLATE = "dataset/images_anonymized/{}/images/"
 LABEL_PATH_TEMPLATE = "dataset/titan_0_4/{}.csv"
 TRAIN_CLIPS_PATH = "dataset/train_set.txt"
 
-OUTPUT_DIR = Path("presentation_outputs/preprocessing_videos")
+OUTPUT_DIR = Path("AER1515_Presentation/presentation_outputs/preprocessing_videos")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 OUT_ORIG_PATH = OUTPUT_DIR / "tracks_original.mp4"

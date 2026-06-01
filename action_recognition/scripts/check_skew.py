@@ -1,7 +1,7 @@
 import torch
 from pathlib import Path
 
-lbls = torch.load("cached_feats/train_labels.pt")  # (N, 5)
+lbls = torch.load("action_recognition/cached_feats/train_labels.pt")  # (N, 5)
 
 from _dataset import CATS  # or just hardcode the list
 from pathlib import Path

@@ -33,7 +33,7 @@ TRAIN_CLIPS_PATH = "dataset/train_set.txt"  # first 20% of rows
 PERSON_LABEL = "person"
 NONE_LABEL = "none of the above"
 
-OUTPUT_DIR = Path("presentation_outputs/titan_videos_with_labels/")
+OUTPUT_DIR = Path("AER1515_Presentation/presentation_outputs/titan_videos_with_labels/")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 OUTPUT_PATH = OUTPUT_DIR / "titan_10clips_person_labels_with_side_panel.mp4"
 

@@ -23,7 +23,7 @@ import matplotlib.pyplot as plt
 # Paths / constants
 # ---------------------------------------------------------------------
 SPLIT_TAG = "splits_pct_20_T16_S4"
-DATA_PATH = Path("action_det/data") / SPLIT_TAG
+DATA_PATH = Path("action_recognition/data") / SPLIT_TAG
 
 JSONL_FILES = {
     "train": DATA_PATH / "train.jsonl",
@@ -37,7 +37,7 @@ REPORT_FILES = {
     "test":  DATA_PATH / "test_label_report.json",
 }
 
-IMG_OUTPUT_DIR = Path("presentation_outputs/histogram_images")
+IMG_OUTPUT_DIR = Path("AER1515_Presentation/presentation_outputs/histogram_images")
 IMG_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 ALL_HEADS_IMG = IMG_OUTPUT_DIR / "all_heads_train_distribution.png"

@@ -2,7 +2,7 @@ import json
 from collections import Counter
 from pathlib import Path
 
-root = Path("action_det/data/splits_pct_20_T8_S4")
+root = Path("data/splits_pct_20_T8_S4")
 splits = ["train", "val", "test"]
 heads = ["atomic", "simple-context", "complex-context",
          "communicative", "transportive"]

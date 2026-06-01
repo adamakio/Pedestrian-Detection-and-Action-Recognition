@@ -12,16 +12,16 @@ A two-stage perception pipeline for autonomous driving: pedestrian detection wit
 TITAN video clips
       │
       ▼
-┌─────────────────────┐
-│  YOLO11n Detection  │  Fine-tuned on TITAN pedestrian annotations
-│  (scripts/)         │  with a 10% subset training strategy
-└─────────────────────┘
+┌──────────────────────────────┐
+│  YOLO11n Detection           │  Fine-tuned on TITAN pedestrian annotations
+│  (YOLO_pedestrian_detection/)│  with a 10% subset training strategy
+└──────────────────────────────┘
       │  pedestrian bounding boxes + tracks
       ▼
-┌─────────────────────┐
-│  R3D18 Classifier   │  T=8 frame clips, 5 simultaneous action heads
-│  (action_det/)      │  focal loss + rare-class weighted sampling
-└─────────────────────┘
+┌──────────────────────────────┐
+│  R3D18 Classifier            │  T=8 frame clips, 5 simultaneous action heads
+│  (action_recognition/)       │  focal loss + rare-class weighted sampling
+└──────────────────────────────┘
       │
       ▼
  Multi-label action predictions per pedestrian
@@ -46,27 +46,35 @@ The action recognition model predicts 5 independent behavioral heads simultaneou
 ## Repository Structure
 
 ```
-scripts/                    # YOLO pedestrian detection pipeline
-├── export_titan_to_yolo.py # Convert TITAN annotations → YOLO format
-├── train_yolo.py           # Fine-tune YOLO11n on TITAN
-├── eval_yolo.py            # Evaluate detection (mAP, precision, recall)
-├── track_person.py         # ByteTrack multi-object tracking
-├── generate_frame.py       # Visualize detections on frames
+YOLO_pedestrian_detection/       # YOLO11 pedestrian detection pipeline
+├── export_titan_to_yolo.py      # Convert TITAN annotations → YOLO format
+├── train_yolo.py                # Fine-tune YOLO11n on TITAN
+├── eval_yolo.py                 # Evaluate detection (mAP, precision, recall)
+├── track_person.py              # ByteTrack multi-object tracking
+├── merge_ultralytics_runs.py    # Merge multi-run checkpoints
+├── runs/detect/                 # Training runs and model weights (Git LFS)
+├── figs/                        # Detector comparison figures
 └── ...
 
-action_det/                 # Action recognition pipeline
+action_recognition/              # R3D18 action recognition pipeline
 ├── scripts/
-│   ├── 01_build_index.py   # Build clip index from TITAN
+│   ├── 01_build_index.py        # Build clip index from TITAN
 │   ├── 02_build_label_space.py  # Map TITAN labels to head categories
-│   ├── _dataset.py         # TubeDataset — loads T-frame pedestrian clips
-│   ├── heads.py            # Action head definitions
-│   ├── train.py            # R3D18 training with focal loss + weighted sampling
-│   ├── 06_eval.py          # Per-head accuracy, F1, confusion matrices
+│   ├── _dataset.py              # TubeDataset — loads T-frame pedestrian clips
+│   ├── heads.py                 # Action head definitions (5 behavioral categories)
+│   ├── train.py                 # R3D18 training with focal loss + weighted sampling
+│   ├── 06_eval.py               # Per-head accuracy, F1, confusion matrices
 │   └── ...
-├── data/                   # Clip split JSONLs (not included — TITAN license)
-└── runs/                   # Checkpoints (tracked via Git LFS)
+├── data/                        # Clip split JSONLs (not included — TITAN license)
+├── cached_feats/                # Cached R3D18 feature tensors (not tracked)
+├── runs/                        # Checkpoints (tracked via Git LFS)
+└── count_labels.py              # Label distribution utility
 
-figs/                       # Detector comparison figures
+AER1515_Presentation/            # Slides, video, and visualization scripts
+├── presentation_scripts/        # Scripts to generate figures and videos
+└── presentation_outputs/        # Generated outputs (not tracked)
+
+docs/                            # Reports and project documents
 ```
 
 ---

@@ -18,15 +18,15 @@ LABEL_PATH_TEMPLATE = "dataset/titan_0_4/{}.csv"
 TEST_CLIPS_PATH = "dataset/test_set.txt"
 
 MODEL_PATH = (
-    "action_det/runs/r3d18_pct20_T16_S4_img112_b24_rare2.5_no_s/best.pt"
+    "action_recognition/runs/r3d18_pct20_T16_S4_img112_b24_rare2.5_no_s/best.pt"
 )
 
-SPLIT_DIR = Path("action_det/data/splits_pct_20_T16_S4")
+SPLIT_DIR = Path("action_recognition/data/splits_pct_20_T16_S4")
 LABEL_SPACE_JSON = SPLIT_DIR / "label_space.json"
 meta = json.loads(LABEL_SPACE_JSON.read_text())
 LABEL_SPACE: Dict[str, List[str]] = meta["label_space"]
 
-OUTPUT_DIR = Path("presentation_outputs/titan_videos_with_labels_test")
+OUTPUT_DIR = Path("AER1515_Presentation/presentation_outputs/titan_videos_with_labels_test")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 OUTPUT_VIDEO = OUTPUT_DIR / "titan_test_predictions.mp4"
 

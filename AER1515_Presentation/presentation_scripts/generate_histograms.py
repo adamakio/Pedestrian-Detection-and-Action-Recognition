@@ -23,7 +23,7 @@ from matplotlib.animation import FuncAnimation, FFMpegWriter
 # -------------------------------------------------------------------
 # CONSTANTS (from your message)
 # -------------------------------------------------------------------
-DATA_PATH = Path("action_det/data/splits_pct_20_T16_S4")
+DATA_PATH = Path("action_recognition/data/splits_pct_20_T16_S4")
 
 LABEL_SPACE = {
     "atomic": [
@@ -67,11 +67,11 @@ VAL_FILE = "val.jsonl"
 TEST_FILE = "test.jsonl"
 LABELS_KEY = "labels"
 
-OUTPUT_DIR = Path("presentation_outputs/histograms")
+OUTPUT_DIR = Path("AER1515_Presentation/presentation_outputs/histograms")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # where to save the final frame (static PNG)
-IMG_OUTPUT_DIR = Path("presentation_outputs/histogram_images")
+IMG_OUTPUT_DIR = Path("AER1515_Presentation/presentation_outputs/histogram_images")
 IMG_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 

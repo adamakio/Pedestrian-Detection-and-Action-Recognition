@@ -23,7 +23,7 @@ LABEL_SPACE_JSON = SPLIT_DIR / "label_space.json"
 # pretrained full model
 CKPT = Path("action_det/runs/r3d18_pct20_T8_S4_img224_b24/best.pt")
 
-OUT_DIR = Path("cached_feats")
+OUT_DIR = Path("action_recognition/cached_feats")
 OUT_DIR.mkdir(exist_ok=True)
 
 TRAIN_FEATS = OUT_DIR / "train_feats.pt"

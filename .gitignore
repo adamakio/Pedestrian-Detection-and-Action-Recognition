@@ -20,48 +20,61 @@ pip-wheel-metadata/
 logs/
 *.logs
 
-.ipynb_checkpoints/ 
-
-dataset/
-debug/
-yolo/
-yolo_0.1/
-runs/predict/
-action_det/debug_viz
-action_det/eval
-runs/detect/titan_person_11n_0.1/weights/epoch*.pt
-runs/detect/titan_person_11n_0.1v2/weights/epoch*.pt
-runs/detect/titan_person_11n_0.1_merged/test_vis
-yolo11l.pt
-yolo11n.pt
-yolo11s.pt
-*.mp4
-tracks_mot16*
-predictions.json
+.ipynb_checkpoints/
 
 # Training logs and generated output files
 *.log
-export_titan_to_yolo_output.txt
-prepare_yolo_symlinks_output.txt
-verify_titan_annotations_output.txt
-tree.txt
-titan_clips.txt
+*.txt
 
-# Generated/cached data
-cached_feats/
-presentation_outputs/
+# Large model weights (YOLO base models)
+YOLO_pedestrian_detection/yolo11l.pt
+YOLO_pedestrian_detection/yolo11n.pt
+YOLO_pedestrian_detection/yolo11s.pt
 
-# Additional experiment runs (not the primary tracked runs)
-action_det/runs/r3d18_pct1_*/
-action_det/runs/r3d18_pct20_T10_*/
-action_det/runs/r3d18_pct20_T16_*/
-action_det/runs/test/
-action_det/runs/test_balance/
-action_det/runs/test_focal_loss/
-action_det/eval.zip
-action_det/data/splits_pct_100_*/
-action_det/data/splits_pct_20_T10_*/
-action_det/data/splits_pct_20_T16_*/
-action_det/data/splits_pct_20_T8_S4/train_dev.jsonl
-action_det/data/splits_pct_20_T8_S4/val_dev.jsonl
-runs/detect/titan_person_11n/test_results_yolo_11n/
+# YOLO dataset (too large, TITAN license)
+YOLO_pedestrian_detection/yolo/
+YOLO_pedestrian_detection/yolo_0.1/
+
+# YOLO prediction and tracking outputs
+YOLO_pedestrian_detection/runs/predict/
+YOLO_pedestrian_detection/runs/detect/titan_person_11n/test_results_yolo_11n/
+YOLO_pedestrian_detection/runs/track_bytetrack/
+YOLO_pedestrian_detection/runs/track_bytetrack_yolo_11l/
+YOLO_pedestrian_detection/runs/detect/titan_person_11n/weights/yolo11n.pt
+
+# Epoch checkpoints (keep only best/last)
+YOLO_pedestrian_detection/runs/detect/titan_person_11n_0.1/weights/epoch*.pt
+YOLO_pedestrian_detection/runs/detect/titan_person_11n_0.1v2/weights/epoch*.pt
+YOLO_pedestrian_detection/runs/detect/titan_person_11n_0.1_merged/test_vis
+
+# Action recognition — extra experiment runs
+action_recognition/runs/r3d18_pct1_*/
+action_recognition/runs/r3d18_pct20_T10_*/
+action_recognition/runs/r3d18_pct20_T16_*/
+action_recognition/runs/test/
+action_recognition/runs/test_balance/
+action_recognition/runs/test_focal_loss/
+action_recognition/eval.zip
+action_recognition/debug_viz/
+action_recognition/eval/
+
+# Action recognition — extra data splits
+action_recognition/data/splits_pct_100_*/
+action_recognition/data/splits_pct_20_T10_*/
+action_recognition/data/splits_pct_20_T16_*/
+action_recognition/data/splits_pct_20_T8_S4/train_dev.jsonl
+action_recognition/data/splits_pct_20_T8_S4/val_dev.jsonl
+
+# Cached feature tensors
+action_recognition/cached_feats/
+
+# Presentation media and outputs
+AER1515_Presentation/*.mp4
+AER1515_Presentation/*.pptx
+AER1515_Presentation/~$*
+AER1515_Presentation/presentation_outputs/
+
+# Misc
+tracks_mot16*
+predictions.json
+debug/

@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 
 # --- Paths ---------------------------------------------------------
-run_dir = Path("action_det/runs/r3d18_pct20_T16_S4_img112_b24_rare2.5_no_s")
+run_dir = Path("action_recognition/runs/r3d18_pct20_T16_S4_img112_b24_rare2.5_no_s")
 csv_path = run_dir / "results.csv"
-out_dir = Path("presentation_outputs/training_plots")
+out_dir = Path("AER1515_Presentation/presentation_outputs/training_plots")
 out_dir.mkdir(parents=True, exist_ok=True)
 
 # --- Load results --------------------------------------------------

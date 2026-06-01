@@ -25,7 +25,7 @@ SPLIT_DIR = Path("action_det/data/splits_pct_20_T8_S4")
 LABEL_SPACE_JSON = SPLIT_DIR / "label_space.json"
 TRAIN_LABEL_REPORT = SPLIT_DIR / "train_label_report.json"
 
-FEAT_DIR = Path("cached_feats")
+FEAT_DIR = Path("action_recognition/cached_feats")
 TRAIN_FEATS = FEAT_DIR / "train_feats.pt"
 TRAIN_LABS  = FEAT_DIR / "train_labels.pt"
 VAL_FEATS   = FEAT_DIR / "val_feats.pt"
