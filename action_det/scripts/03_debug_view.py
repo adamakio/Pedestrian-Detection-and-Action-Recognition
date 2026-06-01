@@ -2,6 +2,11 @@
 import argparse, json, imageio
 from pathlib import Path
 from _dataset import TubeDataset
+import numpy as np
+import torch
+
+MEAN = [0.43216, 0.394666, 0.37645]
+STD  = [0.22803, 0.22145, 0.216989]
 
 def main():
     ap = argparse.ArgumentParser()
@@ -18,16 +23,25 @@ def main():
     jsonl = split_dir / f"{args.split}.jsonl"
     label_space_json = split_dir / "label_space.json"
 
-    ds = TubeDataset(jsonl, label_space_json, img_size=args.img_size)
+    # train=False so we don’t apply rare-class aug, but normalization still happens
+    ds = TubeDataset(jsonl, label_space_json, img_size=args.img_size, train=False)
     outdir = Path(args.out); outdir.mkdir(parents=True, exist_ok=True)
 
     for i in range(min(args.num, len(ds))):
-        tube, targets = ds[i]  # (C,T,H,W)
-        C,T,H,W = tube.shape
-        frames = (tube.permute(1,0,2,3) * 255).byte().numpy()  # (T,C,H,W) uint8
-        frames = [frames[t].transpose(1,2,0) for t in range(T)] # list of HxWxC
+        tube, targets = ds[i]      # tube: (C,T,H,W), normalized
+
+        # --- un-normalize back to [0,1] ---
+        tube_vis = tube.clone()
+        for c in range(3):
+            tube_vis[c] = tube_vis[c] * STD[c] + MEAN[c]
+        tube_vis.clamp_(0.0, 1.0)
+
+        # (C,T,H,W) -> (T,H,W,C), uint8
+        tube_vis = tube_vis.permute(1, 2, 3, 0).cpu().numpy()  # (T,H,W,C)
+        frames = (tube_vis * 255).astype(np.uint8)
+
         savep = outdir / f"sample_{i:03d}.mp4"
-        imageio.mimsave(savep, frames, fps=8)
+        imageio.mimsave(savep, list(frames), fps=8)
         print(f"[OK] wrote {savep}")
 
 if __name__ == "__main__":

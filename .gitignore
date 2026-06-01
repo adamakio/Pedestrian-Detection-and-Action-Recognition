@@ -38,3 +38,30 @@ yolo11s.pt
 *.mp4
 tracks_mot16*
 predictions.json
+
+# Training logs and generated output files
+*.log
+export_titan_to_yolo_output.txt
+prepare_yolo_symlinks_output.txt
+verify_titan_annotations_output.txt
+tree.txt
+titan_clips.txt
+
+# Generated/cached data
+cached_feats/
+presentation_outputs/
+
+# Additional experiment runs (not the primary tracked runs)
+action_det/runs/r3d18_pct1_*/
+action_det/runs/r3d18_pct20_T10_*/
+action_det/runs/r3d18_pct20_T16_*/
+action_det/runs/test/
+action_det/runs/test_balance/
+action_det/runs/test_focal_loss/
+action_det/eval.zip
+action_det/data/splits_pct_100_*/
+action_det/data/splits_pct_20_T10_*/
+action_det/data/splits_pct_20_T16_*/
+action_det/data/splits_pct_20_T8_S4/train_dev.jsonl
+action_det/data/splits_pct_20_T8_S4/val_dev.jsonl
+runs/detect/titan_person_11n/test_results_yolo_11n/

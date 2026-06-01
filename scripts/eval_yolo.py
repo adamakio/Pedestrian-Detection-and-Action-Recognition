@@ -1,14 +1,10 @@
 from ultralytics import YOLO
 from pathlib import Path
 
-RUN    = Path("runs/detect/titan_person_11n_0.1_merged")
+RUN    = Path("runs/detect/titan_person_11n")
 MODEL  = RUN / "weights" / "best.pt"
 DATA   = "yolo_0.1/titan_person_0.1.yaml"  # has train/val/test
-TEST_FOLDER = "test_results_yolo_11l"
-RUN = Path("runs/detect/titan_person_11l")
-if not RUN.exists():
-    RUN.mkdir(parents=True, exist_ok=True)
-MODEL = Path("yolo11l.pt")  # pre-trained model
+TEST_FOLDER = "test_results_yolo_11n"
 
 model = YOLO(str(MODEL))
 metrics = model.val(

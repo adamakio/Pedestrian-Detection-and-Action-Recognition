@@ -18,13 +18,10 @@ def main():
     label_space = {}
     for cat in CATS:
         counts = report.get(cat, {})
-        labels = [k for k, v in counts.items() if v > 0]
-        # guarantee 'none' exists and is first for each head
-        if "none" not in labels:
-            labels = ["none"] + labels
-        else:
-            labels = ["none"] + [x for x in labels if x != "none"]
+        # preserve the exact key order from train_label_report.json
+        labels = list(counts.keys())
         label_space[cat] = labels
+
 
     out_dir = Path(f"action_det/data/splits_pct_{int(args.pct*100)}_T{args.T}_S{args.stride}")
     out_dir.mkdir(parents=True, exist_ok=True)

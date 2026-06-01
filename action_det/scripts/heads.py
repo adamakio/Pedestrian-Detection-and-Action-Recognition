@@ -8,7 +8,7 @@ HEADS = {
     "simple-context": [
         "none",
         "motorcycling", "jaywalking", "crossing legally", "entering a building",
-        "waiting o cross", "opening", "walking on the side", "cleaning",
+        "waiting to cross", "opening", "walking on the side", "cleaning",
         "closing", "exiting a building", "walking on the road", "biking"
     ],
     "complex-context": [

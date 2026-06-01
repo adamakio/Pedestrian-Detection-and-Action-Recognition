@@ -4,6 +4,39 @@ from pathlib import Path
 from collections import defaultdict, Counter
 from heads import HEADS, COL2HEAD  # HEADS: dict[head] -> list[str]; COL2HEAD: csv_col -> head
 
+# Map raw TITAN strings to our canonical HEADS labels
+RAW2CANON = {
+    "atomic": {
+        "none of the above": "none",
+    },
+    "simple-context": {
+        "none of the above": "none",
+        "cleaning an object": "cleaning",
+        "crossing a street at pedestrian crossing": "crossing legally",
+        "jaywalking (illegally crossing NOT at pedestrian crossing)": "jaywalking",
+        "waiting to cross street": "waiting to cross",
+        "walking along the side of the road": "walking on the side",
+    },
+    "complex-context": {
+        "none of the above": "none",
+        "getting in 4 wheel vehicle": "getting in 4wv",
+        "getting off 2 wheel vehicle": "getting off 2wv",
+        "getting on 2 wheel vehicle": "getting-on 2wv",
+        "getting out of 4 wheel vehicle": "getting-out 4wv",
+    },
+    "communicative": {
+        "none of the above": "none",
+        "looking into phone": "looking at phone",
+    },
+    "transportive": {
+        "none of the above": "none",
+        "carrying with both hands": "carrying",
+    },
+}
+
+
+
+
 DATASET = Path("dataset")
 IMG_ROOT = DATASET / "images_anonymized"
 CSV_ROOT = DATASET / "titan_0_4"
@@ -12,6 +45,34 @@ SPLIT_TXT = {
     "val":   DATASET / "val_set.txt",
     "test":  DATASET / "test_set.txt",
 }
+RARE_STRIDE = 1
+
+
+def normalize_label(head: str, raw: str) -> str | None:
+    """
+    Map a raw TITAN label string to our canonical HEADS label.
+    Returns None if the label is empty / unusable.
+    """
+    if not raw:
+        return None
+    raw = raw.strip()
+    # exact mapping first
+    canon_map = RAW2CANON.get(head, {})
+    if raw in canon_map:
+        return canon_map[raw]
+    return raw  # fall back to raw; will be checked against HEADS later
+
+
+def frame_has_action(row):
+    """
+    Return True if this annotation row has any non-'none' label in any head.
+    """
+    for col, head in COL2HEAD.items():
+        raw = (row.get(col) or "").strip()
+        if raw and raw.lower() != "none of the above" and raw.lower() != "walking" and raw.lower() != "walking on the road":
+            # print(raw)
+            return True
+    return False
 
 def load_clip_list(txt_path, pct: float):
     clips = [l.strip() for l in txt_path.read_text().splitlines() if l.strip()]
@@ -74,17 +135,33 @@ def build_clip_samples(clip: str, T: int, STRIDE: int):
         stems = [s for s,_ in items]
         rows  = [r for _,r in items]
 
+        # Decide if this track is "rare" (has any action frames)
+        is_rare_track = any(frame_has_action(r) for r in rows)
+        stride_for_track = RARE_STRIDE if is_rare_track else STRIDE
+
         # sliding windows
-        for start in range(0, len(rows) - T + 1, STRIDE):
+                # sliding windows
+        for start in range(0, len(rows) - T + 1, stride_for_track):
             sub_rows  = rows[start:start+T]
             sub_stems = stems[start:start+T]
 
-            # labels from last frame of window
+            # labels by majority vote over *normalized* labels
             labels = {}
-            last = sub_rows[-1]
             for col, head in COL2HEAD.items():
-                raw = (last.get(col) or "").strip()
-                labels[head] = raw if raw in HEADS[head] else "none"
+                per_frame = []
+                for r in sub_rows:
+                    raw = (r.get(col) or "").strip()
+                    canon = normalize_label(head, raw)
+                    if canon and canon in HEADS[head]:
+                        per_frame.append(canon)
+
+                if per_frame:
+                    counts = Counter(per_frame)
+                    majority_label, _ = counts.most_common(1)[0]
+                    labels[head] = majority_label
+                else:
+                    labels[head] = "none"
+
 
             # per-frame center boxes (cx, cy, w, h) in pixels
             bboxes_cxcywh, ok = [], True
@@ -166,15 +243,6 @@ def main(pct: float, T: int, STRIDE: int):
         for h in HEADS:
             present = [k for k,v in label_counts[h].items() if v>0]
             print(f"  - {h}: {len(present)} labels present")
-
-    # Build label_space.json from TRAIN present labels (+ ensure 'none' exists and is first)
-    label_space = {}
-    for h, cnt in train_label_counts.items():
-        present = sorted([k for k,v in cnt.items() if v>0 and k != "none"])
-        label_space[h] = ["none"] + present
-    label_space_payload = {"label_space": label_space, "T": T, "stride": STRIDE}
-    (out_root / "label_space.json").write_text(json.dumps(label_space_payload, indent=2))
-    print(f"[ok] wrote {out_root/'label_space.json'}")
 
 if __name__ == "__main__":
     import argparse

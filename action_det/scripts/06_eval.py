@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 from _dataset import TubeDataset, CATS  # fixed order of heads
 
 # --- CONSTANTS ---
-NUM_VIS = 20  # default number of samples to visualize
+NUM_VIS = 1  # default number of samples to visualize
 
 # ---------- helpers ----------
 def softmax_np(x):
@@ -63,20 +63,29 @@ def average_precision(y_true_bin, y_score):
     return float(ap)
 
 def build_model(label_space):
-    backbone = r3d_18(weights="KINETICS400_V1")
+    backbone = r3d_18(weights="KINETICS400_V1")  # torchvision >= 0.15
     feat_dim = backbone.fc.in_features
     backbone.fc = nn.Identity()
-    heads = nn.ModuleDict({cat: nn.Linear(feat_dim, len(lbls))
-                           for cat, lbls in label_space.items()})
+    hidden_dim = 256
+    heads = nn.ModuleDict({
+        cat: nn.Sequential(
+            nn.Linear(feat_dim, hidden_dim),
+            nn.ReLU(inplace=True),
+            # nn.Dropout(p=0.5),
+            nn.Linear(hidden_dim, len(labels)),
+        )
+        for cat, labels in label_space.items()
+    })
+
     class MultiHead(nn.Module):
         def __init__(self, bb, hd):
             super().__init__()
             self.bb = bb
             self.hd = hd
-            self.s  = nn.ParameterDict({k: nn.Parameter(torch.zeros(1)) for k in hd.keys()})
         def forward(self, x):
-            f = self.bb(x)
+            f = self.bb(x)  # (N, feat)
             return {k: self.hd[k](f) for k in self.hd.keys()}
+
     return MultiHead(backbone, heads)
 
 def ensure_xywh_per_frame(item):
@@ -154,7 +163,7 @@ def main():
     ap.add_argument("--device", type=str, default="mps")
     args = ap.parse_args()
 
-    run_dir = Path(f"action_det/runs/r3d18_pct{int(args.pct*100)}_T{args.T}_S{args.stride}_img{args.imgsz}_b{args.batch}")
+    run_dir = Path(f"action_det/runs/r3d18_pct{int(args.pct*100)}_T{args.T}_S{args.stride}_img{args.imgsz}_b{args.batch}_rare2.5_no_s")
     ckpt = run_dir / "best.pt"
     split_dir = Path(f"action_det/data/splits_pct_{int(args.pct*100)}_T{args.T}_S{args.stride}")
     test_jsonl = split_dir / "test.jsonl"
@@ -164,7 +173,7 @@ def main():
     assert test_jsonl.exists(), f"Missing test index: {test_jsonl}"
     assert label_space_json.exists(), "Run 02_build_label_space.py first"
 
-    out_root = Path(f"action_det/eval/r3d18_pct{int(args.pct*100)}_T{args.T}_S{args.stride}_img{args.imgsz}_b{args.batch}")
+    out_root = Path(f"action_det/eval/r3d18_pct{int(args.pct*100)}_T{args.T}_S{args.stride}_img{args.imgsz}_b{args.batch}_rare2.5_no_s")
     (out_root / "confusion").mkdir(parents=True, exist_ok=True)
     (out_root / "confusion_png").mkdir(parents=True, exist_ok=True)
     (out_root / "pr_curves").mkdir(parents=True, exist_ok=True)
@@ -311,31 +320,57 @@ def main():
         out_png = out_root / "confusion_png" / f"{cat}_confusion.png"
         plot_confusion_png(cm, classes, f"Confusion: {cat}", out_png)
 
-    # A few last-frame visualizations
-    print("[INFO] Saving a few visualization frames…")
+    # Single last-frame visualization: GT vs prediction
+    print("[INFO] Saving a single GT vs prediction visualization…")
     items = [json.loads(l) for l in test_jsonl.read_text().splitlines()]
-    vis_n = min(NUM_VIS, len(items))
     order_preds = {cat: softmax_np(all_logits[cat]).argmax(axis=1) for cat in CATS}
 
-    for i in tqdm(range(vis_n), desc="Vis frames", leave=False):
+    # We will scan from the start and take the first sample that has frames + bbox
+    saved_one = False
+    for i in tqdm(range(len(items)), desc="Vis frames", leave=False):
         it = items[i]
         frames = it.get("frames", [])
         if not frames:
             continue
+
+        # Get last-frame bbox
         try:
             bboxes = ensure_xywh_per_frame(it)
             last_xywh = bboxes[-1]
         except Exception:
             continue
+
         last_frame = frames[-1]
+
+        # Build label strings: only heads where GT != "none"
         label_strs = []
         for cat in CATS:
             classes = label_space[cat]
+            gt_idx = int(all_targets[cat][i])
+            gt_label = classes[gt_idx]
+
+            # Skip heads whose ground-truth label is "none"
+            if gt_label == "none":
+                continue
+
             pred_idx = int(order_preds[cat][i])
-            label_strs.append(f"{cat}:{classes[pred_idx]}")
+            pred_label = classes[pred_idx]
+            label_strs.append(f"{cat}: GT={gt_label}, Pred={pred_label}")
+
+        # If all heads were "none", skip this tube
+        if not label_strs:
+            continue
+
         text = " | ".join(label_strs)
-        out_img = out_root / "vis_frames" / f"sample_{i:03d}.jpg"
+        out_img = out_root / "vis_frames" / "sample_gt_vs_pred.jpg"
         draw_box_and_label(last_frame, last_xywh, text, out_img)
+        print(f"[INFO] Saved visualization to {out_img}")
+        saved_one = True
+        break  # only one visualization
+
+    if not saved_one:
+        print("[WARN] Could not find a suitable sample for visualization.")
+
 
     print(f"[OK] Wrote outputs to: {out_root}")
 
