@@ -86,9 +86,13 @@ figs/                       # Detector comparison figures
 
 ---
 
-## Final Report
+## Docs
 
-[`AER1515_FinalReport_ZouhairAdamHamaimou.pdf`](../AER1515_FinalReport_ZouhairAdamHamaimou.pdf)
+| File | Description |
+|------|-------------|
+| [`AER1515_FinalReport_ZouhairAdamHamaimou.pdf`](docs/AER1515_FinalReport_ZouhairAdamHamaimou.pdf) | Final report |
+| [`AER1515_Initial_Results_ZouhairHamaimou_1004891986.pdf`](docs/AER1515_Initial_Results_ZouhairHamaimou_1004891986.pdf) | Midterm results |
+| [`AER1515_Proposal_ZouhairHamaimou_WayneLu.pdf`](docs/AER1515_Proposal_ZouhairHamaimou_WayneLu.pdf) | Project proposal |
 
 ---
 
