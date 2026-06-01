@@ -80,6 +80,12 @@ figs/                       # Detector comparison figures
 
 ---
 
+## Presentation
+
+[![AER1515 Final Project Presentation](https://img.youtube.com/vi/CaRRNdxRcNQ/maxresdefault.jpg)](https://www.youtube.com/watch?v=CaRRNdxRcNQ)
+
+---
+
 ## Final Report
 
 [`AER1515_FinalReport_ZouhairAdamHamaimou.pdf`](../AER1515_FinalReport_ZouhairAdamHamaimou.pdf)
